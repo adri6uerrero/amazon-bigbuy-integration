@@ -28,7 +28,29 @@
             </div>
         </div>
     </div>
-    <h2>Listado de Pedidos</h2>
+    <div class="card-footer d-flex justify-content-end">
+        <nav>
+            <ul class="pagination mb-0">
+                @if ($orders->onFirstPage())
+                    <li class="page-item disabled"><span class="page-link"><span class="me-1">&#8592;</span> Previous</span></li>
+                @else
+                    <li class="page-item"><a class="page-link" href="{{ $orders->previousPageUrl() }}" rel="prev"><span class="me-1">&#8592;</span> Previous</a></li>
+                @endif
+
+                @if ($orders->hasMorePages())
+                    <li class="page-item"><a class="page-link" href="{{ $orders->nextPageUrl() }}" rel="next">Next <span class="ms-1">&#8594;</span></a></li>
+                @else
+                    <li class="page-item disabled"><span class="page-link">Next <span class="ms-1">&#8594;</span></span></li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2>Listado de Pedidos</h2>
+        <a href="{{ route('orders.create') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Crear Pedido
+        </a>
+    </div>
     <form method="GET" action="{{ route('orders.index') }}" class="mb-3">
     <div class="row g-2 align-items-end">
         <div class="col-md-4">
@@ -47,6 +69,8 @@
         <div class="col-md-2 d-flex align-items-end">
             <button type="submit" class="btn btn-primary w-100">Buscar</button>
         </div>
+    </div>
+</form>
     </div>
 </form>
     <table class="table table-bordered table-hover">

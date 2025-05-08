@@ -9,6 +9,11 @@ use App\Models\Customer;
 
 class Order extends Model
 {
+    public function logs()
+    {
+        return $this->hasMany(\App\Models\OrderLog::class);
+    }
+
     use HasFactory;
     protected $fillable = [
         'amazon_order_id',

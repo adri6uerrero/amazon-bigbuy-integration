@@ -16,12 +16,12 @@
                 <h2 class="fs-4 mb-4 text-center">Amazon ↔ BigBuy</h2>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a class="nav-link {{ request()->routeIs('orders.index') ? 'active' : '' }}" href="{{ route('orders.index') }}">
-                            <i class="bi bi-box-seam me-2"></i>Pedidos
+                        <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.*') ? ' active' : '' }}">
+                            <i class="bi bi-box"></i> Pedidos
                         </a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a class="nav-link" href="#"><i class="bi bi-people me-2"></i>Clientes</a>
+                        <a href="{{ route('customers.index') }}" class="nav-link {{ request()->routeIs('customers.*') ? ' active' : '' }}">
+                            <i class="bi bi-people"></i> Clientes
+                        </a>
                     </li>
                     <li class="nav-item mb-2">
                         <a class="nav-link" href="#"><i class="bi bi-gear me-2"></i>Configuración</a>
