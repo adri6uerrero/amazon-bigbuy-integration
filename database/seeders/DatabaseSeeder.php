@@ -14,6 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Llamar al seeder del usuario administrador
+        $this->call([
+            AdminUserSeeder::class,
+        ]);
+        
         Order::factory()
             ->count(20)
             ->has(OrderItem::factory()->count(rand(1,4)), 'items')

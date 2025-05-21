@@ -4,15 +4,38 @@ body {
 }
 
 /* Corrige el tamaño de las flechas en la paginación */
-.page-link svg {
+.pagination .page-link svg {
     width: 1em !important;
     height: 1em !important;
     vertical-align: middle;
 }
 
+/* Oculta SVGs grandes fuera de la paginación que puedan aparecer por error */
+svg:not(.pagination .page-link svg) {
+    max-width: 2em;
+    max-height: 2em;
+    display: inline-block;
+}
+
 .pagination {
     --bs-pagination-font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
 }
+
+.pagination > li {
+    float: none !important;
+    display: inline-block;
+}
+
+.pagination .page-link {
+    min-width: 2.2em;
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 .sidebar {
     min-height: 100vh;

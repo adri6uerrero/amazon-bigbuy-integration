@@ -53,11 +53,11 @@
     </div>
     <form method="GET" action="{{ route('orders.index') }}" class="mb-3">
     <div class="row g-2 align-items-end">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label for="search" class="form-label">Buscar:</label>
             <input type="text" name="search" id="search" value="{{ request('search') }}" class="form-control" placeholder="Amazon Order ID, Cliente, Tracking, Email...">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label for="status" class="form-label">Estado:</label>
             <select name="status" id="status" class="form-select">
                 <option value="">Todos</option>
@@ -66,7 +66,16 @@
                 <option value="error" {{ request('status') == 'error' ? 'selected' : '' }}>Error</option>
             </select>
         </div>
-        <div class="col-md-2 d-flex align-items-end">
+        <div class="col-md-2">
+            <label for="date_from" class="form-label">Desde:</label>
+            <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label for="date_to" class="form-label">Hasta:</label>
+            <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="form-control">
+        </div>
+
+        <div class="col-md-1 d-flex align-items-end">
             <button type="submit" class="btn btn-primary w-100">Buscar</button>
         </div>
     </div>
@@ -76,13 +85,13 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Amazon Order ID</th>
-                <th>Cliente</th>
-                <th>Estado</th>
-                <th>Tracking</th>
-                <th>Creado</th>
-                <th>Acciones</th>
+                <th><a href="{{ route('orders.index', array_merge(request()->all(), ['sort' => 'id', 'dir' => request('sort') === 'id' && request('dir') === 'asc' ? 'desc' : 'asc'])) }}">ID</a></th>
+<th>Amazon Order ID</th>
+<th>Cliente</th>
+<th>Estado</th>
+<th>Tracking</th>
+<th>Creado</th>
+<th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -115,6 +124,11 @@
                         <a href="{{ route('orders.show', $order->id) }}" class="btn btn-sm btn-outline-primary" title="Ver Detalle">
     <i class="bi bi-eye"></i>
 </a>
+@if($order->status === 'enviado' && $order->tracking_number)
+    <button class="btn btn-sm btn-success ms-1" disabled>Procesado ✓</button>
+@else
+    <a href="{{ url('/test-simulado?amazon_order_id=' . $order->amazon_order_id) }}" class="btn btn-sm btn-outline-success ms-1">Procesar pedido (simulado)</a>
+@endif
 @if($order->status === 'error')
 <form action="{{ route('orders.retry', $order->id) }}" method="POST" style="display:inline-block;">
     @csrf

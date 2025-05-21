@@ -128,7 +128,34 @@ class OrderAdminController extends Controller
                   });
             });
         }
-        $orders = $query->orderByDesc('created_at')->paginate(15)->withQueryString();
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+        if ($request->filled('amount_min')) {
+            $query->whereHas('items', function($q) use ($request) {
+                $q->selectRaw('order_id, SUM(price * quantity) as total')->groupBy('order_id')->havingRaw('total >= ?', [$request->amount_min]);
+            });
+        }
+        if ($request->filled('amount_max')) {
+            $query->whereHas('items', function($q) use ($request) {
+                $q->selectRaw('order_id, SUM(price * quantity) as total')->groupBy('order_id')->havingRaw('total <= ?', [$request->amount_max]);
+            });
+        }
+        // Ordenamiento
+        $sortable = ['id', 'amazon_order_id', 'status', 'created_at'];
+        $sort = in_array($request->get('sort'), $sortable) ? $request->get('sort') : 'created_at';
+        $dir = $request->get('dir') === 'asc' ? 'asc' : 'desc';
+        if ($sort === 'customer') {
+            $query->join('customers', 'orders.customer_id', '=', 'customers.id')
+                  ->orderBy('customers.name', $dir)
+                  ->select('orders.*');
+        } else {
+            $query->orderBy($sort, $dir);
+        }
+        $orders = $query->paginate(15)->withQueryString();
         return view('orders', compact('orders'));
     }
 
