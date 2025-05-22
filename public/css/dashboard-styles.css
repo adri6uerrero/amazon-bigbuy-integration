@@ -1,0 +1,251 @@
+/* Estilos para el dashboard moderno tipo cartera digital */
+
+/* Header styles */
+.reports-header, .dashboard-header, .page-header {
+    background: linear-gradient(135deg, #3d6eea 0%, #6e47ef 100%);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(61, 110, 234, 0.15);
+}
+
+.page-header h2, .reports-header h2, .dashboard-header h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.page-header p, .reports-header p, .dashboard-header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.85rem;
+}
+
+/* Card styles */
+.stats-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(61, 110, 234, 0.06);
+    overflow: hidden;
+    border: 1px solid rgba(230, 230, 250, 0.7);
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stats-card:hover {
+    box-shadow: 0 8px 25px rgba(61, 110, 234, 0.1);
+    transform: translateY(-3px);
+}
+
+.card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f5f7fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+}
+
+.card-header h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.card-header h5 i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+    color: #3d6eea;
+}
+
+/* Metric cards */
+.metric-card {
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.metric-value {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin: 10px 0;
+    background: linear-gradient(135deg, #3d6eea, #6e47ef);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.metric-label {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.metric-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.5rem;
+}
+
+/* Chart container */
+.chart-container {
+    padding: 15px;
+    height: 300px;
+    position: relative;
+}
+
+/* Table styles */
+.data-table {
+    width: 100%;
+}
+
+.data-table th {
+    padding: 12px 15px;
+    font-weight: 500;
+    color: #718096;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover {
+    background-color: #f9fafc;
+}
+
+/* Status badges */
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 30px;
+    color: white;
+}
+
+.status-pending {
+    background: linear-gradient(135deg, #ff9e43, #ff7a01);
+}
+
+.status-processing {
+    background: linear-gradient(135deg, #4481eb, #2196F3);
+}
+
+.status-shipped {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.status-delivered {
+    background: linear-gradient(135deg, #42b883, #1f8057);
+}
+
+.status-cancelled {
+    background: linear-gradient(135deg, #f05252, #bd3737);
+}
+
+/* Form styles */
+.form-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(61, 110, 234, 0.06);
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+/* Custom buttons */
+.btn-gradient {
+    background: linear-gradient(135deg, #3d6eea, #6e47ef);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #6e47ef, #3d6eea);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(61, 110, 234, 0.2);
+    color: white;
+}
+
+/* Period selector */
+.period-selector {
+    display: inline-flex;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 2px;
+    border: 1px solid #e2e8f0;
+}
+
+.period-option {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #718096;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.period-option.active {
+    background: white;
+    color: #3d6eea;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Custom legend */
+.custom-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    margin-right: 8px;
+}
+
+.legend-label {
+    font-size: 0.8rem;
+    color: #718096;
+}

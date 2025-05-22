@@ -18,6 +18,25 @@
     z-index: 1030;
     transition: all 0.3s;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow-y: auto; /* Añadir barra de desplazamiento vertical */
+}
+
+/* Estilo elegante para la barra de desplazamiento */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #23283b; /* Mismo color que la barra lateral */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #3d4154; /* Un tono ligeramente más claro para el thumb */
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #484d66; /* Un tono aún más claro al hacer hover */
 }
 
 .sidebar-brand {
@@ -259,6 +278,12 @@
                             <span>Pedidos</span>
                         </a>
                     </li>
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('revenue.index') }}" class="sidebar-menu-link {{ request()->routeIs('revenue.*') ? 'active' : '' }}">
+                            <i class="bi bi-graph-up-arrow sidebar-menu-icon"></i>
+                            <span>Ventas</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             
@@ -287,24 +312,7 @@
                 </ul>
             </div>
             
-            <!-- Integraciones Section -->
-            <div class="sidebar-menu-section">
-                <div class="sidebar-menu-title">Integraciones</div>
-                <ul class="sidebar-menu-items">
-                    <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link">
-                            <i class="bi bi-person-lines-fill sidebar-menu-icon"></i>
-                            Base de Clientes
-                        </a>
-                    </li>
-                    <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link">
-                            <i class="bi bi-chat-dots sidebar-menu-icon"></i>
-                            Mensajes
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <!-- La sección Integraciones ha sido eliminada completamente -->
             
             <!-- Administración Section -->
             <div class="sidebar-menu-section" style="margin-bottom: 30px;">
@@ -312,16 +320,11 @@
                 <ul class="sidebar-menu-items">
                     <li class="sidebar-menu-item">
                         <a href="{{ route('config.index') }}" class="sidebar-menu-link {{ request()->routeIs('config.*') ? 'active' : '' }}">
-                            <i class="bi bi-gear sidebar-menu-icon"></i>
-                            <span>Configuración</span>
+                            <i class="bi bi-arrow-repeat sidebar-menu-icon"></i>
+                            <span>Sincronización Amazon y BigBuy</span>
                         </a>
                     </li>
-                    <li class="sidebar-menu-item">
-                        <a href="#" class="sidebar-menu-link">
-                            <i class="bi bi-graph-up sidebar-menu-icon"></i>
-                            Informes
-                        </a>
-                    </li>
+                    <!-- Botón de Informes eliminado según lo solicitado -->
                 </ul>
             </div>
             

@@ -8,10 +8,15 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\RevenueController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/dashboard-optimized', function () {
+    return view('dashboard-optimized');
+})->middleware(['auth'])->name('dashboard.optimized');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,6 +39,9 @@ Route::middleware('auth')->group(function () {
     
     // Rutas para informes y estadísticas
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    
+    // Rutas de informes de ingresos
+    Route::get('/revenue', [RevenueController::class, 'index'])->name('revenue.index');
     Route::get('/reports/generate/{type}', [ReportController::class, 'generateReport'])->name('reports.generate');
     
     // Rutas para gestión de clientes

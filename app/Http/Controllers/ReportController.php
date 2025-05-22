@@ -9,9 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Response;
+use App\Services\StatsService;
 
 class ReportController extends Controller
 {
+    protected $statsService;
+    
+    public function __construct(StatsService $statsService)
+    {
+        $this->statsService = $statsService;
+    }
+    
     /**
      * Muestra el panel de estadísticas e informes
      */
@@ -39,68 +47,39 @@ class ReportController extends Controller
                 $start_date = Carbon::now()->startOfMonth();
         }
         
-        // Estadísticas generales
-        $stats = [
-            'total_orders' => Order::count(),
-            'total_customers' => Customer::count(),
-            'total_products' => Product::count(),
-            'orders_period' => Order::whereBetween('created_at', [$start_date, $end_date])->count(),
-            'revenue_period' => Order::whereBetween('created_at', [$start_date, $end_date])
-                                ->where('status', '!=', 'cancelado')
-                                ->sum('total_amount'),
-            'avg_order_value' => Order::where('status', '!=', 'cancelado')
-                                ->avg('total_amount') ?? 0,
-            'pending_orders' => Order::where('status', 'pendiente')->count(),
-            'shipped_orders' => Order::where('status', 'enviado')->count(),
-            'delivered_orders' => Order::where('status', 'entregado')->count(),
-            'canceled_orders' => Order::where('status', 'cancelado')->count(),
-            'orders_last_month' => Order::whereBetween('created_at', [Carbon::now()->subMonth(), Carbon::now()])->count(),
-        ];
+        // Obtener todas las estadísticas usando el servicio centralizado
+        $stats = $this->statsService->getGeneralStats($start_date, $end_date);
+        $platform_stats = $this->statsService->getPlatformStats();
+        $monthly_orders = $this->statsService->getOrdersOverTime($period);
+        $status_distribution = $this->statsService->getStatusDistribution();
+        $top_customers = $this->statsService->getTopCustomers(5);
+        $top_products = $this->statsService->getTopProducts(5);
         
-        // Estadísticas de plataformas
-        $platform_stats = [
-            'amazon_products' => Product::whereNotNull('amazon_asin')->count(),
-            'bigbuy_products' => Product::whereNotNull('bigbuy_id')->count(),
-            'synced_products' => Product::whereNotNull('amazon_asin')->whereNotNull('bigbuy_id')->count(),
-            'stock_issues' => Product::whereRaw('amazon_stock != bigbuy_stock')->count(),
-            'price_issues' => Product::whereRaw('ABS(amazon_price - bigbuy_price) >= 0.01')->count(),
-        ];
-        
-        // Datos para gráficos avanzados
-        $monthly_orders = $this->getOrdersOverTime($period);
+        // Datos adicionales para gráficos avanzados que siguen siendo específicos de este controlador
         $daily_revenue = $this->getDailyRevenue();
-        $status_distribution = $this->getStatusDistribution();
         $category_distribution = $this->getProductCategoryDistribution();
         $platform_distribution = $this->getPlatformDistribution();
-        
-        // Análisis de clientes
-        $top_customers = Customer::withCount('orders')
-                        ->orderBy('orders_count', 'desc')
-                        ->take(5)
-                        ->get();
-                        
         $customer_growth = $this->getCustomerGrowth();
         $customer_retention = $this->getCustomerRetention();
-        
-        // Análisis de ventas
         $sales_by_day = $this->getSalesByDayOfWeek();
-        $top_products = $this->getTopProducts();
         
-        return view('reports.index', compact(
-            'stats',
-            'platform_stats',
-            'monthly_orders',
-            'daily_revenue',
-            'status_distribution',
-            'category_distribution',
-            'platform_distribution',
-            'top_customers',
-            'customer_growth',
-            'customer_retention',
-            'sales_by_day',
-            'top_products',
-            'period'
-        ));
+        return view('reports.modern_index', [
+            'stats' => $stats,
+            'period' => $period,
+            'start_date_formatted' => $start_date->format('Y-m-d'),
+            'end_date_formatted' => $end_date->format('Y-m-d'),
+            'platform_stats' => $platform_stats,
+            'monthly_orders' => $monthly_orders,
+            'daily_revenue' => $daily_revenue,
+            'status_distribution' => $status_distribution,
+            'category_distribution' => $category_distribution,
+            'platform_distribution' => $platform_distribution,
+            'top_customers' => $top_customers,
+            'customer_growth' => $customer_growth,
+            'customer_retention' => $customer_retention,
+            'sales_by_day' => $sales_by_day,
+            'top_products' => $top_products
+        ]);
     }
     
     /**
