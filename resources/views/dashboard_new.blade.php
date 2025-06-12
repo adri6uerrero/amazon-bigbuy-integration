@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    /* Header styles */
+    /* Header styles */w
     .dashboard-header {
         background: linear-gradient(135deg, #3d6eea 0%, #6e47ef 100%);
         color: white;
