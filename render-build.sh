@@ -1,15 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Script de configuración para despliegue en Render
-echo "Instalación de dependencias..."
-composer install --optimize-autoloader --no-dev
+# Instala las dependencias de Composer
+echo "Instalando dependencias de Composer..."
+composer install --no-interaction --prefer-dist --optimize-autoloader
 
-echo "Configuración de Laravel..."
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# Copia el archivo .env si no existe
+echo "Preparando archivo .env..."
+if [ ! -f .env ]; then
+  cp .env.example .env
+fi
 
-echo "Migración de la base de datos..."
+# Genera la APP_KEY
+echo "Generando APP_KEY..."
+php artisan key:generate --force
+
+# Ejecuta migraciones
+echo "Ejecutando migraciones..."
 php artisan migrate --force
 
-echo "¡Despliegue completo!"
+echo "Despliegue listo para Render.com"
